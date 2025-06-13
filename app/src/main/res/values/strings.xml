@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">0 NoteTaker</string>
+    <string name="title_spaced_repetition">Spaced Repetition</string>
+    <string name="title_add_note">Add Note</string>
+    <string name="title_properties">Properties</string>
+    <string name="title_add_folder">Add Folder</string>
+    <string name="title_sort_by">Sort By</string>
+</resources>
