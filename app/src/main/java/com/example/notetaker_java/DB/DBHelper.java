@@ -71,4 +71,10 @@ public class DBHelper extends SQLiteOpenHelper {
 		return result != -1;
 	}
 
+	public int DeleteNote(String id) {
+		SQLiteDatabase db     = this.getWritableDatabase();
+		int            result = db.delete(TABLE_NAME, COL_ID + "=?", new String[] {id});
+		db.close();
+		return result;
+	}
 }
