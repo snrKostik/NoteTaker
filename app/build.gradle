@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'com.example.notetaker_java'
-    compileSdk 35
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.notetaker_java"
         minSdk 29
-        targetSdk 35
+        targetSdk 29
         versionCode 1
         versionName "1.0"
 

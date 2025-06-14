@@ -10,7 +10,7 @@ public class PropertiesViewModel extends ViewModel {
 
     public PropertiesViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("This is Properties fragment");
     }
 
     public LiveData<String> getText() {

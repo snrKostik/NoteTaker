@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.add_note.AddNoteFragment">
 
-    <TextView
+<!--    <TextView
         android:id="@+id/text_addNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,5 +18,80 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".MainActivity">
+
+        <EditText
+            android:id="@+id/editTextNoteTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Заголовок заметки"
+            android:inputType="textCapSentences"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/editTextNoteContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Содержимое заметки"
+            android:inputType="textMultiLine"
+            android:minLines="1"
+            android:maxLines="999"
+            android:gravity="top"
+            android:minHeight="48dp"
+            android:background="@null"
+            />
+
+        <EditText
+            android:id="@+id/editTextNoteId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ID заметки (для обновления/удаления)"
+            android:inputType="number"
+            android:minHeight="48dp" />
+
+        <Button
+            android:id="@+id/buttonAddNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Добавить заметку" />
+
+        <Button
+            android:id="@+id/buttonViewNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Показать все заметки" />
+
+        <Button
+            android:id="@+id/buttonUpdateNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Обновить заметку" />
+
+        <Button
+            android:id="@+id/buttonDeleteNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Удалить заметку" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/textViewNotesResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Список заметок:"
+                android:textSize="16sp" />
+        </ScrollView>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
