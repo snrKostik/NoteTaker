@@ -58,4 +58,17 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	}
 
+	public boolean UpdateNote(String id, String title, String content){
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+
+		values.put(COL_TITLE, title);
+		values.put(COL_CONTENT, content);
+		values.put(COL_TIMESTAMP, String.valueOf(System.currentTimeMillis()));
+
+		long result = db.update(TABLE_NAME, values, COL_ID + "=?", new String[]{id});
+		db.close();
+		return result != -1;
+	}
+
 }
