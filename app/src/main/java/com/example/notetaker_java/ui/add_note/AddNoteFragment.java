@@ -50,11 +50,13 @@ public class AddNoteFragment extends Fragment {
 		editTextNoteTitle = view.findViewById(R.id.editTextNoteTitle);
 		editTextNoteContent = view.findViewById(R.id.editTextNoteContent);
 		editTextNoteId = view.findViewById(R.id.editTextNoteId);
+
 		buttonAddNote = view.findViewById(R.id.buttonAddNote);
 		buttonViewNotes = view.findViewById(R.id.buttonViewNotes);
 		buttonUpdateNote = view.findViewById(R.id.buttonUpdateNote);
 		buttonDeleteNote = view.findViewById(R.id.buttonDeleteNote);
-		textViewNotesResult = view.findViewById(R.id.textViewNotesResult);
+
+//		viewAllNotesContent();
 
 		addNote();
 		viewAllNotes();
@@ -81,7 +83,7 @@ public class AddNoteFragment extends Fragment {
 				if (isInserted) {
 					Toast.makeText(getContext(), "Заметка успешно добавлена", Toast.LENGTH_SHORT).show();
 					clearFields();
-					viewAllNotesContent();
+//					viewAllNotesContent();
 				} else {
 					Toast.makeText(getContext(), "Ошибка при добавлении заметки", Toast.LENGTH_SHORT).show();
 				}
@@ -93,36 +95,36 @@ public class AddNoteFragment extends Fragment {
 		buttonViewNotes.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				viewAllNotesContent(); // Вызываем внутренний метод для получения и отображения данных
+//				viewAllNotesContent(); // Вызываем внутренний метод для получения и отображения данных
 			}
 		});
 	}
 
-	private void viewAllNotesContent() {
-		Cursor res = myDB.getAllNotes();
-		if (res.getCount() == 0) {
-			textViewNotesResult.setText("Список заметок пуст.");
-			Toast.makeText(getContext(), "Заметок не найдено", Toast.LENGTH_SHORT).show();
-			return;
-		}
-
-		StringBuilder       buffer = new StringBuilder();
-		List<DBHelper.Note> notes  = new ArrayList<>();
-
-		while (res.moveToNext()) {
-			int    id        = res.getInt(res.getColumnIndexOrThrow(myDB.COL_ID));
-			String title     = res.getString(res.getColumnIndexOrThrow(myDB.COL_TITLE));
-			String content   = res.getString(res.getColumnIndexOrThrow(myDB.COL_CONTENT));
-			String timestamp = res.getString(res.getColumnIndexOrThrow(myDB.COL_TIMESTAMP));
-			notes.add(new DBHelper.Note(id, title, content, timestamp));
-		}
-		res.close();
-
-		for (DBHelper.Note note : notes) {
-			buffer.append(note.toString()).append("\n\n");
-		}
-		textViewNotesResult.setText(buffer.toString());
-	}
+//	private void viewAllNotesContent() {
+//		Cursor res = myDB.getAllNotes();
+//		if (res.getCount() == 0) {
+//			textViewNotesResult.setText("Список заметок пуст.");
+//			Toast.makeText(getContext(), "Заметок не найдено", Toast.LENGTH_SHORT).show();
+//			return;
+//		}
+//
+//		StringBuilder       buffer = new StringBuilder();
+//		List<DBHelper.Note> notes  = new ArrayList<>();
+//
+//		while (res.moveToNext()) {
+//			int    id        = res.getInt(res.getColumnIndexOrThrow(myDB.COL_ID));
+//			String title     = res.getString(res.getColumnIndexOrThrow(myDB.COL_TITLE));
+//			String content   = res.getString(res.getColumnIndexOrThrow(myDB.COL_CONTENT));
+//			String timestamp = res.getString(res.getColumnIndexOrThrow(myDB.COL_TIMESTAMP));
+//			notes.add(new DBHelper.Note(id, title, content, timestamp));
+//		}
+//		res.close();
+//
+//		for (DBHelper.Note note : notes) {
+//			buffer.append(note.toString()).append("\n\n");
+//		}
+//		textViewNotesResult.setText(buffer.toString());
+//	}
 
 	public void updateNote() {
 		buttonUpdateNote.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +140,7 @@ public class AddNoteFragment extends Fragment {
 					return;
 				}
 
-				boolean isUpdate = myDB.UpdateNote(id, title, content);
+				boolean isUpdate = myDB.UpdateNote(id, content);
 
 				if (isUpdate) {
 					Toast.makeText(getContext(), "Заметка успешно обновлена", Toast.LENGTH_SHORT).show();
@@ -167,7 +169,7 @@ public class AddNoteFragment extends Fragment {
 					if (deletedRows > 0) {
 						Toast.makeText(getContext(), "Заметка успешно удалена", Toast.LENGTH_SHORT).show();
 						clearFields();
-						viewAllNotesContent(); // Обновляем список заметок
+//						viewAllNotesContent(); // Обновляем список заметок
 					} else {
 						Toast.makeText(getContext(), "Ошибка удаления заметки или заметка с таким ID не найдена", Toast.LENGTH_SHORT).show();
 					}
