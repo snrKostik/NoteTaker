@@ -25,7 +25,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"
+        android:layout_marginTop="50dp">
 
         <EditText
             android:id="@+id/editTextNoteTitle"
@@ -80,18 +81,18 @@
             android:layout_height="wrap_content"
             android:text="Удалить заметку" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp">
+<!--        <ScrollView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_marginTop="16dp">-->
 
-            <TextView
-                android:id="@+id/textViewNotesResult"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Список заметок:"
-                android:textSize="16sp" />
-        </ScrollView>
+<!--            <TextView-->
+<!--                android:id="@+id/textViewNotesResult"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Список заметок:"-->
+<!--                android:textSize="16sp" />-->
+<!--        </ScrollView>-->
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
