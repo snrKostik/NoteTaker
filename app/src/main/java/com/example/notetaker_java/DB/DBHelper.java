@@ -13,7 +13,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	private static final String TAG = "DB HELPER";
 
 	public static final String DB_NAME         = "note_taker.db";
-	public static final int    DB_VERSION      = 2; // Конечно же я не забуду менять версию :clueless:
+	public static final int    DB_VERSION      = 3; // Конечно же я не забуду менять версию :clueless:
 	public static final String TABLE_NAME      = "notes";
 	public static final String COL_ID          = "id";
 	public static final String COL_TITLE       = "title";
