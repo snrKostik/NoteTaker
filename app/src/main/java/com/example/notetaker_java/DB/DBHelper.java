@@ -62,30 +62,13 @@ public class DBHelper extends SQLiteOpenHelper {
 	}
 
 	public Cursor getAllNotes() {
-//		SQLiteDatabase db = this.getReadableDatabase();
-//		//Cursor res = db.rawQuery("SELECT * FROM " + TABLE_NOTES + " ORDER BY " + COL_TIMESTAMP + " DESC", null);
-//		//return res;
-//		return db.rawQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY " + COL_TIMESTAMP + " DESC", null);
 		SQLiteDatabase db     = this.getReadableDatabase();
 		Cursor         cursor = null;
 		try {
 			cursor = db.query(TABLE_NAME, null, null, null, null, null, COL_TIMESTAMP + " DESC");
-			// It's generally better to return the cursor and let the caller manage its lifecycle
-			// and close it. However, if this method is the sole consumer:
-			// process cursor data here
-			return cursor; // Or process and return data in a different format
+			return cursor;
 		} finally {
-			// If the cursor is processed entirely within this method and not returned,
-			// you would close it here:
-			// if (cursor != null && !cursor.isClosed()) {
-			//     cursor.close();
-			// }
-			// The database connection should ideally be managed at a higher level
-			// or closed when the DBHelper instance is no longer needed.
-			// For short-lived operations, closing it here is acceptable.
-			// if (db != null && db.isOpen()) {
-			//     db.close();
-
+//nothing here
 		}
 	}
 
