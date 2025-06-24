@@ -20,7 +20,7 @@ public class SpacedRepetition {
 	private SQLiteDatabase db;
 //			getReadableDatabase().query(DBHelper.TABLE_NAME, null, null, null, null, null, null);
 
-	private double formula(double t, double k, double c){
+	private double formula(double t, double k, double c) {
 		double b = 0;
 		if (t >= 0) {
 			try {

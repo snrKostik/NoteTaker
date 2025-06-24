@@ -60,6 +60,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
 
 	public void updateNotes(List<DBHelper.Note> newNoteList) {
 		this.noteList = newNoteList;
-		notifyDataSetChanged(); // Уведомляем адаптер об изменении данных, чтобы он перерисовал список
+		notifyDataSetChanged();
 	}
 }

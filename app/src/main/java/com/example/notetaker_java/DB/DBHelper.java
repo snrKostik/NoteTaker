@@ -132,6 +132,8 @@ public class DBHelper extends SQLiteOpenHelper {
 			return timestamp;
 		}
 
+
+		// Старое дерьмо. Просььюа не обращать внимания
 		@Override
 		public String toString() {
 			return "ID: " + id + "\n" + "Заголовок: " + title + "\n" + "Содержимое: " + content + "\n" + "Время: " + timestamp + "\n" + "--------------------";

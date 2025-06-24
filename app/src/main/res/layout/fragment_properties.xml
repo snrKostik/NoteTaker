@@ -5,24 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.properties.PropertiesFragment">
 
-
     <org.osmdroid.views.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/weather_info_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="55dp"
         android:background="#80000000"
         android:gravity="center"
         android:padding="8dp"
-        android:layout_marginBottom="55dp"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        tools:text="City: Moscow\nTemp: 25°C\nDesc: Clear Sky"/>
+        tools:text="City: Moscow\nTemp: 25°C\nDesc: Clear Sky" />
 
 </FrameLayout>

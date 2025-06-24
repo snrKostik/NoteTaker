@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModel;
 
 public class PropertiesViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+	private final MutableLiveData<String> mText;
 
-    public PropertiesViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is Properties fragment");
-    }
+	public PropertiesViewModel() {
+		mText = new MutableLiveData<>();
+		mText.setValue("This is Properties fragment");
+	}
 
-    public LiveData<String> getText() {
-        return mText;
-    }
+	public LiveData<String> getText() {
+		return mText;
+	}
 }

@@ -27,7 +27,7 @@ import java.util.List;
 
 public class AddNoteFragment extends Fragment {
 
-	private DBHelper myDB; // Экземпляр нашего помощника базы данных
+	private DBHelper myDB;
 	private EditText editTextNoteTitle, editTextNoteContent, editTextNoteId;
 	private ImageButton buttonAddNote, buttonViewNotes, buttonUpdateNote, buttonDeleteNote;
 	private TextView textViewNotesResult;
@@ -39,11 +39,6 @@ public class AddNoteFragment extends Fragment {
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		AddNoteViewModel addNoteViewModel = new ViewModelProvider(this).get(AddNoteViewModel.class);
 
-//		binding = FragmentAddNoteBinding.inflate(inflater, container, false);
-//		View root = binding.getRoot();
-
-//        final TextView textView = binding.textAddNote;
-//        addNoteViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 		View view = inflater.inflate(R.layout.fragment_add_note, container, false);
 
 		myDB = new DBHelper(getContext());
@@ -53,14 +48,11 @@ public class AddNoteFragment extends Fragment {
 		editTextNoteId = view.findViewById(R.id.editTextNoteId);
 
 		buttonAddNote = view.findViewById(R.id.buttonAddNote);
-//		buttonViewNotes = view.findViewById(R.id.buttonViewNotes);
 		buttonUpdateNote = view.findViewById(R.id.buttonUpdateNote);
 		buttonDeleteNote = view.findViewById(R.id.buttonDeleteNote);
 
-//		viewAllNotesContent();
 
 		addNote();
-//		viewAllNotes();
 		updateNote();
 		deleteNote();
 
@@ -92,41 +84,6 @@ public class AddNoteFragment extends Fragment {
 		});
 	}
 
-	public void viewAllNotes() {
-		buttonViewNotes.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-//				viewAllNotesContent(); // Вызываем внутренний метод для получения и отображения данных
-			}
-		});
-	}
-
-//	private void viewAllNotesContent() {
-//		Cursor res = myDB.getAllNotes();
-//		if (res.getCount() == 0) {
-//			textViewNotesResult.setText("Список заметок пуст.");
-//			Toast.makeText(getContext(), "Заметок не найдено", Toast.LENGTH_SHORT).show();
-//			return;
-//		}
-//
-//		StringBuilder       buffer = new StringBuilder();
-//		List<DBHelper.Note> notes  = new ArrayList<>();
-//
-//		while (res.moveToNext()) {
-//			int    id        = res.getInt(res.getColumnIndexOrThrow(myDB.COL_ID));
-//			String title     = res.getString(res.getColumnIndexOrThrow(myDB.COL_TITLE));
-//			String content   = res.getString(res.getColumnIndexOrThrow(myDB.COL_CONTENT));
-//			String timestamp = res.getString(res.getColumnIndexOrThrow(myDB.COL_TIMESTAMP));
-//			notes.add(new DBHelper.Note(id, title, content, timestamp));
-//		}
-//		res.close();
-//
-//		for (DBHelper.Note note : notes) {
-//			buffer.append(note.toString()).append("\n\n");
-//		}
-//		textViewNotesResult.setText(buffer.toString());
-//	}
-
 	public void updateNote() {
 		buttonUpdateNote.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -157,20 +114,20 @@ public class AddNoteFragment extends Fragment {
 		buttonDeleteNote.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String id = editTextNoteId.getText().toString().trim();
+				String id    = editTextNoteId.getText().toString().trim();
+				String title = editTextNoteTitle.getText().toString().trim();
 
 				if (id.isEmpty()) {
 					Toast.makeText(getContext(), "Пожалуйста, введите ID заметки для удаления!", Toast.LENGTH_SHORT).show();
 					return;
 				}
 
-				// Опционально: показать диалог подтверждения перед удалением
-				new AlertDialog.Builder(getContext()).setTitle("Подтверждение удаления").setMessage("Вы уверены, что хотите удалить заметку с ID: " + id + "?").setPositiveButton("Да", (dialog, which)->{
+
+				new AlertDialog.Builder(getContext()).setTitle("Подтверждение удаления").setMessage("Вы уверены, что хотите удалить заметку " + title + " с ID: " + id + "?").setPositiveButton("Да", (dialog, which)->{
 					int deletedRows = myDB.DeleteNote(id);
 					if (deletedRows > 0) {
 						Toast.makeText(getContext(), "Заметка успешно удалена", Toast.LENGTH_SHORT).show();
 						clearFields();
-//						viewAllNotesContent(); // Обновляем список заметок
 					} else {
 						Toast.makeText(getContext(), "Ошибка удаления заметки или заметка с таким ID не найдена", Toast.LENGTH_SHORT).show();
 					}

@@ -6,27 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.add_note.AddNoteFragment">
 
-<!--    <TextView
-        android:id="@+id/text_addNote"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
         android:orientation="vertical"
         android:padding="16dp"
-        tools:context=".MainActivity"
-        android:layout_marginTop="50dp">
+        tools:context=".MainActivity">
 
         <EditText
             android:id="@+id/editTextNoteTitle"
@@ -40,14 +26,13 @@
             android:id="@+id/editTextNoteContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="top"
             android:hint="Содержимое заметки"
             android:inputType="textMultiLine"
-            android:minLines="1"
             android:maxLines="999"
-            android:gravity="top"
             android:minHeight="48dp"
-            android:background="@null"
-            />
+            android:minLines="1" />
 
         <EditText
             android:id="@+id/editTextNoteId"
@@ -68,8 +53,8 @@
                 android:id="@+id/buttonAddNote"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:scaleType="centerCrop"
                 android:background="@color/design_default_color_primary"
+                android:scaleType="centerCrop"
                 android:src="@drawable/add"
                 app:layout_constraintEnd_toStartOf="@+id/buttonUpdateNote"
                 app:layout_constraintHorizontal_chainStyle="spread"
@@ -81,10 +66,8 @@
                 android:id="@+id/buttonUpdateNote"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:scaleType="centerCrop"
-
                 android:background="@color/design_default_color_primary"
-
+                android:scaleType="centerCrop"
                 android:src="@drawable/update"
                 app:layout_constraintEnd_toStartOf="@+id/buttonDeleteNote"
                 app:layout_constraintStart_toEndOf="@+id/buttonAddNote"
@@ -95,13 +78,13 @@
                 android:id="@+id/buttonDeleteNote"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:scaleType="centerCrop"
                 android:background="@color/design_default_color_primary"
+                android:scaleType="centerCrop"
                 android:src="@drawable/delete"
-                app:layout_constraintStart_toEndOf="@+id/buttonUpdateNote"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:text="Удалить по ID"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/buttonUpdateNote"
+                app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/white" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

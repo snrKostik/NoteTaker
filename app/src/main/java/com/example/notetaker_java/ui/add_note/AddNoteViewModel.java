@@ -6,13 +6,6 @@ import androidx.lifecycle.ViewModel;
 
 public class AddNoteViewModel extends ViewModel {
 
-//    private final MutableLiveData<String> mText;
-
-    public AddNoteViewModel() {
-//        mText = new MutableLiveData<>();
-//        mText.setValue("This is addNote fragment");
-    }
-//    public LiveData<String> getText() {
-//        return mText;
-//    }
+	public AddNoteViewModel() {
+	}
 }

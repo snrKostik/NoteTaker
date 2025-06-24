@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
 	private Toolbar        toolbar;
 
 
-	private AppBarConfiguration appBarConfiguration; // Изменено с myAppBarConfiguration для соответствия общепринятым именам
-	private NavigationView      navigationDrawerView; // Переименовано для ясности, если есть BottomNavigationView
+	private AppBarConfiguration appBarConfiguration;
+	private NavigationView      navigationDrawerView;
 	private NavController       navController;
 
 	@Override
@@ -58,9 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
 		navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
 
-		appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_spaced_repetition, R.id.navigation_add_note, R.id.navigation_properties) // Добавьте сюда ID ваших фрагментов из графа навигации
-				.setOpenableLayout(drawerLayout) // Связываем с DrawerLayout
-				.build();
+		appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_spaced_repetition, R.id.navigation_add_note, R.id.navigation_properties).setOpenableLayout(drawerLayout).build();
 
 		NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
@@ -90,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
 		}
 
 
-		NavigationView      navView             = findViewById(R.id.nav_view);
-		AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_spaced_repetition, R.id.navigation_add_note, R.id.navigation_properties).build();
-		NavController       navController       = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+		NavigationView       navView              = findViewById(R.id.nav_view);
+		AppBarConfiguration  appBarConfiguration  = new AppBarConfiguration.Builder(R.id.navigation_spaced_repetition, R.id.navigation_add_note, R.id.navigation_properties).build();
+		NavController        navController        = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
 		BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_view);
 
 		NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
