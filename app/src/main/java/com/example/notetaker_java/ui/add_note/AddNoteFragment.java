@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +29,7 @@ public class AddNoteFragment extends Fragment {
 
 	private DBHelper myDB; // Экземпляр нашего помощника базы данных
 	private EditText editTextNoteTitle, editTextNoteContent, editTextNoteId;
-	private Button buttonAddNote, buttonViewNotes, buttonUpdateNote, buttonDeleteNote;
+	private ImageButton buttonAddNote, buttonViewNotes, buttonUpdateNote, buttonDeleteNote;
 	private TextView textViewNotesResult;
 
 	private FragmentAddNoteBinding binding;
@@ -52,14 +53,14 @@ public class AddNoteFragment extends Fragment {
 		editTextNoteId = view.findViewById(R.id.editTextNoteId);
 
 		buttonAddNote = view.findViewById(R.id.buttonAddNote);
-		buttonViewNotes = view.findViewById(R.id.buttonViewNotes);
+//		buttonViewNotes = view.findViewById(R.id.buttonViewNotes);
 		buttonUpdateNote = view.findViewById(R.id.buttonUpdateNote);
 		buttonDeleteNote = view.findViewById(R.id.buttonDeleteNote);
 
 //		viewAllNotesContent();
 
 		addNote();
-		viewAllNotes();
+//		viewAllNotes();
 		updateNote();
 		deleteNote();
 
