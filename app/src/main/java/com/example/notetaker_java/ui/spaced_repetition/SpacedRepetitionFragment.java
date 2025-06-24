@@ -11,15 +11,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notetaker_java.DB.DBHelper;
 import com.example.notetaker_java.R;
 import com.example.notetaker_java.databinding.FragmentSpacedRepetitionBinding;
+import com.example.notetaker_java.ui.NoteAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SpacedRepetitionFragment extends Fragment {
+    private RecyclerView recyclerViewNotes;
+    private NoteAdapter         noteAdapter;
+    private List<DBHelper.Note> noteList;
 
     private DBHelper myDB;
     private TextView textViewNotesResult;
@@ -34,11 +40,13 @@ public class SpacedRepetitionFragment extends Fragment {
 
         myDB = new DBHelper(getContext());
 
-//        binding = FragmentSpacedRepetitionBinding.inflate(inflater, container, false);
-//        View root = binding.getRoot();
-        textViewNotesResult = view.findViewById(R.id.textViewNotesResult);
+        recyclerViewNotes = view.findViewById(R.id.recyclerViewNotes);
+        recyclerViewNotes.setLayoutManager(new LinearLayoutManager(getContext()));
 
-//        final TextView textView = binding.textSpacedRepetition;
+        noteList = new ArrayList<>();
+        noteAdapter = new NoteAdapter(noteList);
+        recyclerViewNotes.setAdapter(noteAdapter);
+
         viewAllNotesContent();
 //        spacedRepetitionViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 //        return root;
@@ -51,28 +59,38 @@ public class SpacedRepetitionFragment extends Fragment {
         binding = null;
     }
     private void viewAllNotesContent() {
-        Cursor res = myDB.getAllNotes();
+        if (myDB == null) {
+            Toast.makeText(getContext(), "Ошибка: База данных не инициализирована.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Cursor res = myDB.getAllNotes(); // Получаем Cursor из вашей БД
         if (res.getCount() == 0) {
-            textViewNotesResult.setText("Список заметок пуст.");
+            // Если заметок нет, очищаем список и уведомляем адаптер
+            noteList.clear();
+            noteAdapter.updateNotes(noteList); // Используем метод updateNotes из адаптера
             Toast.makeText(getContext(), "Заметок не найдено", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        StringBuilder       buffer = new StringBuilder();
-        List<DBHelper.Note> notes  = new ArrayList<>();
+        List<DBHelper.Note> notesFromDb = new ArrayList<>(); // Новый список для заметок из БД
 
         while (res.moveToNext()) {
-            int    id        = res.getInt(res.getColumnIndexOrThrow(myDB.COL_ID));
-            String title     = res.getString(res.getColumnIndexOrThrow(myDB.COL_TITLE));
-            String content   = res.getString(res.getColumnIndexOrThrow(myDB.COL_CONTENT));
+            // Получаем данные из Cursor
+            // Убедитесь, что COL_ID, COL_TITLE, COL_CONTENT, COL_TIMESTAMP определены в вашем DBHelper
+            int id = res.getInt(res.getColumnIndexOrThrow(myDB.COL_ID));
+            String title = res.getString(res.getColumnIndexOrThrow(myDB.COL_TITLE));
+            String content = res.getString(res.getColumnIndexOrThrow(myDB.COL_CONTENT));
             String timestamp = res.getString(res.getColumnIndexOrThrow(myDB.COL_TIMESTAMP));
-            notes.add(new DBHelper.Note(id, title, content, timestamp));
-        }
-        res.close();
 
-        for (DBHelper.Note note : notes) {
-            buffer.append(note.toString()).append("\n\n");
+            // Создаем объект Note и добавляем его в список
+            notesFromDb.add(new DBHelper.Note(id, title, content, timestamp));
         }
-        textViewNotesResult.setText(buffer.toString());
+        res.close(); // Всегда закрывайте Cursor!
+
+        // Обновляем список в адаптере и уведомляем его об изменениях
+        noteList.clear(); // Очищаем текущий список
+        noteList.addAll(notesFromDb); // Добавляем все заметки из БД
+        noteAdapter.updateNotes(noteList); // Вызываем метод для обновления списка и перерисовки
     }
 }
