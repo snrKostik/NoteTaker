@@ -48,64 +48,46 @@ public class MainActivity extends AppCompatActivity {
 
 		setContentView(binding.getRoot());
 
-		toolbar = binding.appBarDrawer.toolbar; // appBarDrawer - это id вашего <include> для app_bar_main.xml?
+		toolbar = binding.appBarDrawer.toolbar;
 		setSupportActionBar(toolbar);
 
-		drawerLayout = binding.drawerLayout; // Предполагаем, что drawer_layout это ID вашего DrawerLayout в activity_main.xml
+		drawerLayout = binding.drawerLayout;
 
-		// Получаем NavigationView для Drawer. Убедитесь, что ID правильный.
-		// Если nav_view используется и для BottomNavigationView, вам нужен другой ID для Drawer NavigationView
-		navigationDrawerView = binding.navView; // Или findViewById(R.id.id_вашего_drawer_navigation_view);
 
-		// Настройка NavController
+		navigationDrawerView = binding.navView;
+
 		navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
 
-		// Настройка AppBarConfiguration. Важно указать DrawerLayout здесь.
-		// Перечислите ID верхнеуровневых экранов вашего приложения.
-		// Гамбургер-иконка будет отображаться для этих экранов.
 		appBarConfiguration = new AppBarConfiguration.Builder(R.id.navigation_spaced_repetition, R.id.navigation_add_note, R.id.navigation_properties) // Добавьте сюда ID ваших фрагментов из графа навигации
 				.setOpenableLayout(drawerLayout) // Связываем с DrawerLayout
 				.build();
 
-		// Связываем ActionBar с NavController и AppBarConfiguration
 		NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-		// Связываем NavigationView (Drawer) с NavController
-		// Эта строка заменяет ваш setNavigationItemSelectedListener
 		if (navigationDrawerView != null) {
 			NavigationUI.setupWithNavController(navigationDrawerView, navController);
 		} else {
-			// Логирование или обработка ошибки, если navigationDrawerView не найден
 			System.out.println("Ошибка: navigationDrawerView не найден!");
 		}
 
-		// Старый ActionBarDrawerToggle - NavigationUI.setupActionBarWithNavController его частично заменяет,
-		// но ActionBarDrawerToggle все еще нужен для анимации гамбургер-иконки и обработки открытия/закрытия.
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawerLayout.addDrawerListener(toggle);
 		toggle.syncState();
 
 
-		// Настройка FAB (если есть)
 		if (binding.appBarDrawer.fab != null) {
 			binding.appBarDrawer.fab.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAnchorView(R.id.fab).show();
+// I definitely need to make some things here
 				}
 			});
 		}
 
-		// Если у вас также есть BottomNavigationView
-		BottomNavigationView bottomNavView = findViewById(R.id.bottom_nav_view); // Убедитесь, что это ID вашего BottomNavigationView
+		BottomNavigationView bottomNavView = findViewById(R.id.bottom_nav_view);
 		if (bottomNavView != null) {
-			// Вы можете настроить его с тем же NavController, если хотите,
-			// чтобы и Drawer, и BottomNav управляли одним и тем же хостом фрагментов.
 			NavigationUI.setupWithNavController(bottomNavView, navController);
 		}
-
-
-		// Этот метод важен для корректной работы кнопки "назад" и гамбургер-иконки с Navigation Component
 
 
 		NavigationView      navView             = findViewById(R.id.nav_view);
@@ -124,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
 		return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
 	}
 
-	// Опционально: для закрытия Drawer кнопкой "назад", если он открыт
 	@Override
 	public void onBackPressed() {
 		if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
