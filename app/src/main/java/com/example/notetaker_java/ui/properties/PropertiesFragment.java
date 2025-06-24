@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,9 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.notetaker_java.API.OpenWeatherApiService;
+import com.example.notetaker_java.API.WeatherResponse;
+import com.example.notetaker_java.API.keys;
 import com.example.notetaker_java.R;
 
 import org.osmdroid.config.Configuration;
@@ -32,6 +36,13 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PropertiesFragment extends Fragment {
 
@@ -39,10 +50,14 @@ public class PropertiesFragment extends Fragment {
     private MyLocationNewOverlay myLocationOverlay;
     private CompassOverlay mCompassOverlay;
     private ScaleBarOverlay mScaleBarOverlay;
+    private TextView weatherInfoTextView;
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    private static final String OPEN_WEATHER_API_KEY = keys.OPEN_WEATHER_API_KEY;
+    private OpenWeatherApiService openWeatherApiService;
 
     public PropertiesFragment() {
+        // Специально пустой конструктор
     }
 
     @Override
@@ -53,6 +68,7 @@ public class PropertiesFragment extends Fragment {
         Configuration.getInstance().setUserAgentValue(requireActivity().getPackageName());
 
         map = view.findViewById(R.id.map);
+        weatherInfoTextView = view.findViewById(R.id.weather_info_text_view);
 
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setBuiltInZoomControls(true);
@@ -73,10 +89,19 @@ public class PropertiesFragment extends Fragment {
         map.getOverlays().add(mScaleBarOverlay);
 
         Marker marker = new Marker(map);
-        marker.setPosition(new GeoPoint(55.7558, 37.6176)); // Пример: Красная площадь
+        marker.setPosition(new GeoPoint(55.7558, 37.6176));
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         marker.setTitle("Тест");
         map.getOverlays().add(marker);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.openweathermap.org/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        openWeatherApiService = retrofit.create(OpenWeatherApiService.class);
+
+        fetchWeatherData(startPoint.getLatitude(), startPoint.getLongitude());
 
         return view;
     }
@@ -120,14 +145,75 @@ public class PropertiesFragment extends Fragment {
                     @Override
                     public void run() {
                         if (myLocationOverlay.getMyLocation() != null) {
-                            map.getController().animateTo(myLocationOverlay.getMyLocation());
+                            GeoPoint userLocation = myLocationOverlay.getMyLocation();
+                            map.getController().animateTo(userLocation);
                             map.getController().setZoom(15.0);
+
+                            fetchWeatherData(userLocation.getLatitude(), userLocation.getLongitude());
                         }
                     }
                 });
             }
         });
     }
+
+    private void fetchWeatherData(double lat, double lon) {
+        if (openWeatherApiService == null) {
+            Toast.makeText(requireContext(), "API Service not initialized.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        openWeatherApiService.getCurrentWeather(lat, lon, OPEN_WEATHER_API_KEY, "metric")
+                .enqueue(new Callback<WeatherResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            WeatherResponse weatherResponse = response.body();
+                            String cityName = weatherResponse.getName();
+                            double temperature = weatherResponse.getMain().getTemp();
+                            String description = weatherResponse.getWeather().get(0).getDescription();
+
+                            String weatherInfo = "Город: " + cityName +
+                                    "\nТемпература: " + temperature + "°C" +
+                                    "\nОписание: " + description;
+
+                            if (weatherInfoTextView != null) {
+                                weatherInfoTextView.setText(weatherInfo);
+                                weatherInfoTextView.setVisibility(View.VISIBLE);
+                            } else {
+                                Toast.makeText(requireContext(), weatherInfo, Toast.LENGTH_LONG).show();
+                            }
+
+                        } else {
+                            if (weatherInfoTextView != null) {
+                                weatherInfoTextView.setText("Не удалось получить данные о погоде: " + response.message());
+                            }
+                            Toast.makeText(requireContext(), "Не удалось получить данные о погоде: " + response.message(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable t) {
+                        if (weatherInfoTextView != null) {
+                            weatherInfoTextView.setText("Ошибка при получении данных о погоде.");
+                        }
+                        Toast.makeText(requireContext(), "Ошибка при получении данных о погоде: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                        t.printStackTrace();
+                    }
+                });
+    }
+
+
+    private void addWeatherMarker(double lat, double lon, String snippet) {
+        Marker weatherMarker = new Marker(map);
+        weatherMarker.setPosition(new GeoPoint(lat, lon));
+        weatherMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        weatherMarker.setTitle("Текущая погода");
+        weatherMarker.setSnippet(snippet);
+        map.getOverlays().add(weatherMarker);
+        map.invalidate();
+    }
+
 
     @Override
     public void onResume() {
@@ -164,5 +250,6 @@ public class PropertiesFragment extends Fragment {
             map.onDetach();
             map = null;
         }
+        weatherInfoTextView = null;
     }
 }
