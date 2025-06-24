@@ -57,42 +57,53 @@
             android:inputType="number"
             android:minHeight="48dp" />
 
-        <Button
-            android:id="@+id/buttonAddNote"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Добавить заметку" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
 
-        <Button
-            android:id="@+id/buttonViewNotes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Показать все заметки" />
+            >
 
-        <Button
-            android:id="@+id/buttonUpdateNote"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Обновить заметку" />
+            <ImageButton
+                android:id="@+id/buttonAddNote"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:scaleType="centerCrop"
+                android:background="@color/design_default_color_primary"
+                android:src="@drawable/add"
+                app:layout_constraintEnd_toStartOf="@+id/buttonUpdateNote"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
 
-        <Button
-            android:id="@+id/buttonDeleteNote"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Удалить заметку" />
+            <ImageButton
+                android:id="@+id/buttonUpdateNote"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:scaleType="centerCrop"
 
-<!--        <ScrollView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_marginTop="16dp">-->
+                android:background="@color/design_default_color_primary"
 
-<!--            <TextView-->
-<!--                android:id="@+id/textViewNotesResult"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Список заметок:"-->
-<!--                android:textSize="16sp" />-->
-<!--        </ScrollView>-->
+                android:src="@drawable/update"
+                app:layout_constraintEnd_toStartOf="@+id/buttonDeleteNote"
+                app:layout_constraintStart_toEndOf="@+id/buttonAddNote"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
 
+            <ImageButton
+                android:id="@+id/buttonDeleteNote"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:scaleType="centerCrop"
+                android:background="@color/design_default_color_primary"
+                android:src="@drawable/delete"
+                app:layout_constraintStart_toEndOf="@+id/buttonUpdateNote"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="Удалить по ID"
+                app:tint="@color/white" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
