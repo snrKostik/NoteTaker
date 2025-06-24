@@ -20,11 +20,11 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String COL_CONTENT     = "content";
 	public static final String COL_ATTACHMENTS = "attachments";
 	public static final String COL_TIMESTAMP   = "timestamp";
+	public static final String COL_IS_REPEATED = "is_repeated";
+	public static final String COL_QUALITY     = "quality";
 
-	private static final String CREATE_TABLE =
-			"CREATE TABLE " + TABLE_NAME + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-			COL_TITLE + " TEXT NOT NULL," +
-			COL_CONTENT + " TEXT," +
+
+	private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COL_TITLE + " TEXT NOT NULL," + COL_CONTENT + " TEXT," +
 //			COL_ATTACHMENTS + " TEXT," +
 			COL_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP)";
 
@@ -44,8 +44,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// Вызывается при обновлении версии базы данных
-		// В реальном приложении здесь должна быть логика миграции
+		// Нет времени мигрировать дб
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 		onCreate(db);
 	}
@@ -62,6 +61,17 @@ public class DBHelper extends SQLiteOpenHelper {
 	}
 
 	public Cursor getAllNotes() {
+		SQLiteDatabase db     = this.getReadableDatabase();
+		Cursor         cursor = null;
+		try {
+			cursor = db.query(TABLE_NAME, null, null, null, null, null, COL_TIMESTAMP + " DESC");
+			return cursor;
+		} finally {
+//nothing here
+		}
+	}
+
+	public Cursor getNotRepeatedNotes() {
 		SQLiteDatabase db     = this.getReadableDatabase();
 		Cursor         cursor = null;
 		try {
